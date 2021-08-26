@@ -1,6 +1,7 @@
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { fetchRooms, checkRoomNo } from "../services/apiUtility";
+import { fetchRooms, checkRoomNo } from "../utility/apiUtility";
+import { validFormData } from "../utility/commonUtility";
 
 function CheckRoom() {
 	const { rooms, roomCheck } = useSelector((state) => state, shallowEqual),
@@ -8,7 +9,8 @@ function CheckRoom() {
 		[formData, setFormData] = useState({
 			room: "",
 			date: ""
-		});
+		}),
+		[error, setError] = useState(null);
 
 	useEffect(() => {
 		fetchRooms("url")
@@ -29,8 +31,13 @@ function CheckRoom() {
 	}
 
 	function checkbooking() {
-		checkRoomNo("api", formData)
-			.then(resp => dispatch({ type: "ROOM_CHECK_SUCCESS", payload: resp.data }))
+		if (validFormData(formData)) {
+			setError(null);
+			checkRoomNo("api", formData)
+				.then(resp => dispatch({ type: "ROOM_CHECK_SUCCESS", payload: resp.data }));
+		} else {
+			setError("Please fill all the fields");
+		}
 	}
 
 	return (
@@ -40,6 +47,11 @@ function CheckRoom() {
 			</div>
 			<hr />
 			<div className="booking-body">
+				{
+					error && <div className="booking-error">
+						{error}
+					</div>
+				}
 				<div className="form-group">
 					<label htmlFor="room">Room</label>
 					<select
@@ -74,7 +86,7 @@ function CheckRoom() {
 					{
 						roomCheck !== undefined ?
 							roomCheck ? <div className="icon check-icon">&#10003;</div> :
-							<div className="icon cross-icon">   &#88;</div>:
+								<div className="icon cross-icon">&#88;</div> :
 							null
 					}
 				</div>

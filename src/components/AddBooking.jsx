@@ -1,6 +1,7 @@
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { fetchRooms, saveBooking } from "../services/apiUtility";
+import { fetchRooms, saveBooking } from "../utility/apiUtility";
+import { validFormData } from "../utility/commonUtility";
 
 function AddBooking() {
 	const { rooms, addRoom } = useSelector((state) => state, shallowEqual),
@@ -9,13 +10,14 @@ function AddBooking() {
 			surname: "",
 			room: "",
 			date: ""
-		});
+		}),
+		[error, setError] = useState(null);
 
 	useEffect(() => {
 		fetchRooms("url")
 			.then(resp => dispatch({ type: "GET_ROOMS_SUCCESS", payload: resp.data }))
 
-		return function() {
+		return function () {
 			dispatch({ type: "SAVE_ROOM_INFO", payload: undefined })
 		}
 	}, [dispatch])
@@ -30,11 +32,16 @@ function AddBooking() {
 	}
 
 	function addBooking() {
-		saveBooking("api", formData)
-			.then(res => dispatch({
-				type: "SAVE_ROOM_INFO",
-				payload: res.data
-			}));
+		if (validFormData(formData)) {
+			setError(null);
+			saveBooking("api", formData)
+				.then(res => dispatch({
+					type: "SAVE_ROOM_INFO",
+					payload: res.data
+				}));
+		} else {
+			setError("Please fill all the fields");
+		}
 	}
 
 	return (
@@ -47,6 +54,11 @@ function AddBooking() {
 				{
 					addRoom && <div className="booking-info">
 						Room added successfully
+					</div>
+				}
+				{
+					error && <div className="booking-error">
+						{error}
 					</div>
 				}
 				<div className="form-group">
