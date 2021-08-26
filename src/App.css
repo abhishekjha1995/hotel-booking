@@ -1,38 +1,105 @@
-.App {
-  text-align: center;
+.app {
+  margin: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.hotel-logo {
+  height: 50px;
+  width: 50px;
+  float: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.booking-system {
+  display: flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-list {
+  height: fit-content;
+  width: 200px;
+  border: 1px solid black;
+  margin-right: 50px;
+}
+
+.nav-list-item {
+  padding: 5px 10px;
+}
+
+.nav-list-item:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.nav-list-item:not(:last-child) {
+  border-bottom: 1px solid black;
+}
+
+.nav-list-item.active {
+  font-weight: bold;
+}
+
+.booking-container {
+  width: 450px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.booking-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.booking-info {
+  background-color: lightblue;
+  padding: 5px;
+  width: 400px;
+  text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-group {
+  margin: 16px 0px;
+}
+
+.form-group label {
+  height: 20px;
+  width: 100px;
+  margin-right: 10px;
+  text-align: right;
+  float: left;
+}
+
+.form-group input {
+  height: 20px;
+  width: 200px;
+}
+
+.form-group select {
+  height: 26px;
+  width: 200px;
+}
+
+.button-group {
+  width: 100%;
+  text-align: center;
+}
+
+.button-group button {
+  height: 35px;
+  width: 75px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.icon {
+  float: right;
+  font-size: 24px;
+  font-weight: bolder;
+  margin-right: 50px;
+}
+
+.check-icon {
+  color: green;
+}
+
+.cross-icon {
+  color: red;
 }
